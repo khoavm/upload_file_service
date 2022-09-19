@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 	"upload_file_handler/config"
+	"upload_file_handler/db"
 
 	routerGroup "upload_file_handler/router"
 )
@@ -19,8 +20,8 @@ func main() {
 	router := gin.Default()
 	router.MaxMultipartMemory = 8 << 20
 	routerGroup.AddUploadRouter(router)
-	//router.AddUploadRouter(router)
 
+	db.ConnectDB()
 	srv := &http.Server{
 		Addr:    "127.0.0.1:5000",
 		Handler: router,
@@ -29,6 +30,7 @@ func main() {
 		WriteTimeout:   20 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)

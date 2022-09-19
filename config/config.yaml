@@ -1,3 +1,5 @@
 storage: D:\Go\upload_file_handler\tmp
+db:
+  dsn: root:123456@tcp(127.0.0.1:33006)/upload?readTimeout=10s&timeout=20s
 
 

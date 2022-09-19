@@ -7,15 +7,12 @@ import (
 	"path/filepath"
 )
 
-type FPTConfig struct {
-	BaseUrl      string `mapstructure:"base_url"`
-	ClientId     string `mapstructure:"client_id"`
-	ClientSecret string `mapstructure:"client_secret"`
-	Username     string `mapstructure:"username"`
-	Password     string `mapstructure:"password"`
+type DB struct {
+	DSN string `mapstructure:"dsn"`
 }
 type config struct {
 	Storage string `mapstructure:"storage"`
+	DB      DB     `mapstructure:"db"`
 }
 
 var Config config
