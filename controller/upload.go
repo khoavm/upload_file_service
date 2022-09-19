@@ -8,14 +8,20 @@ import (
 )
 
 func UploadFile(c *gin.Context) {
+	file, _ := c.FormFile("file")
+	uploadFileService := service.NewUploadFileService(c)
+	if err := uploadFileService.ValidateFile(); err != nil {
+		util.SendError(c, 403, err)
+		return
+	}
+	err := uploadFileService.UploadFile()
 
-	err := service.UploadFile(c)
 	if err != nil {
 		util.SendError(c, 400, err)
 		return
 	}
 	util.Success(c, "Upload successfully!")
-	file, _ := c.FormFile("file")
+
 	log.Println(file.Filename)
 
 }
