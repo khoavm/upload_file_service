@@ -49,6 +49,10 @@ func (u *UploadFileService) UploadFile() error {
 	}
 	filePath := filepath.Join(config.Config.Storage, file.Filename)
 
+	userId, ok := u.c.Get("userId")
+	if ok == false {
+		return errors.New("not found userId")
+	}
 	if err := u.c.SaveUploadedFile(file, filePath); err != nil {
 		return err
 	}
@@ -57,6 +61,7 @@ func (u *UploadFileService) UploadFile() error {
 		Name:      file.Filename,
 		Type:      file.Header.Get("Content-Type"),
 		Length:    file.Size,
+		UserId:    int(userId.(float64)),
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
