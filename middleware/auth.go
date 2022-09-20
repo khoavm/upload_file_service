@@ -22,6 +22,7 @@ func AuthorizeUser() gin.HandlerFunc {
 		// bind Authorization Header to h and check for validation errors
 		if err := c.ShouldBindHeader(&h); err != nil {
 			util.SendError(c, 403, err)
+			c.Abort()
 			return
 		}
 		token := c.Request.Header["Authorization"]
